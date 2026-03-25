@@ -1,0 +1,7 @@
+docker network create my-network
+
+docker run -d --name mysql --network my-network -e MYSQL_ROOT_PASSWORD=Viji@771976 -e MYSQL_DATABASE=ems -p 3307:3306 mysql:8.0
+
+docker run -d --name backend --network my-network -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ems -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=Viji@771976 -p 8080:8080 bhuvaneshbhw/backend
+
+docker run -d --name frontend --network my-network -p 3000:80 bhuvaneshbhw/frontend

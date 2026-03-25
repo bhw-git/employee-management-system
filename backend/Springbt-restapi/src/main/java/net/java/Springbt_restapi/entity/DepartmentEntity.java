@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +18,6 @@ public class DepartmentEntity {
     @Column(name = "department_name")
     private String departmentName;
 
-    @Column(name = "departmet_description")
+    @Column(name = "department_description")
     private String departmentDescription;
 }

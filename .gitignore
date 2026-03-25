@@ -37,3 +37,5 @@ buildNumber.properties
 .env
 .env.local
 .env.production
+
+src/main/resources/application-local.properties
