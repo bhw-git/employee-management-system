@@ -33,3 +33,7 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+.env
+.env.local
+.env.production

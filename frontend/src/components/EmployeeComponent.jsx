@@ -44,7 +44,8 @@ const EmployeeComponent = () => {
             errorCopy.email = "Email is required";
             valid = false;
         }
-        if(!departmentId.trim()){
+        // console.log("departmentId:", departmentId, "Type:", typeof departmentId);
+        if(!departmentId){
             errorCopy.department= "Department is required";
             valid = false;
         }
