@@ -1,0 +1,8 @@
+[deploy]
+startCommand = "java -jar app.jar"
+
+[[services]]
+name = "backend"
+
+[services.settings]
+port = 8080

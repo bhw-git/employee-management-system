@@ -1,0 +1,8 @@
+[deploy]
+startCommand = "nginx -g 'daemon off;'"
+
+[[services]]
+name = "frontend"
+
+[services.settings]
+port = 80
