@@ -2,7 +2,7 @@ import axios from "axios";
 
 // const REST_API_BASE_URL = 'http://localhost:8080/api/employees';
 // eslint-disable-next-line no-undef
-const REST_API_BASE_URL = `${process.env.REACT_APP_API_URL}/api/employees`;
+const REST_API_BASE_URL = "employee-management-system-production-03d8.up.railway.app/api/employees";
 
 export const listofemployees = () => axios.get(REST_API_BASE_URL);
 
