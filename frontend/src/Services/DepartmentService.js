@@ -2,7 +2,7 @@ import axios from "axios";
 
 // const DEPARTMENT_REST_API_BASE_URL = 'http://localhost:8080/api/departments';
 // eslint-disable-next-line no-undef
-const DEPARTMENT_REST_API_BASE_URL=`${process.env.REACT_APP_API_URL}/api/departments`;
+const DEPARTMENT_REST_API_BASE_URL="employee-management-system-production-03d8.up.railway.app/api/departments";
 
 export const listAllDepartments = () => axios.get(DEPARTMENT_REST_API_BASE_URL);
 
