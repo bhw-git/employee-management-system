@@ -6,9 +6,6 @@ const ListDepartmentComponent = () => {
 
     const [departments, setDepartments] = useState([]);
 
-    useEffect(() =>{
-        getAllDepartments()
-    }, [])
 
     function getAllDepartments(){
         listAllDepartments().then((response) => {
@@ -17,6 +14,10 @@ const ListDepartmentComponent = () => {
             console.error(error);
         })
     }
+
+    useEffect(() =>{
+        getAllDepartments()
+    }, [])
 
     const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ const ListDepartmentComponent = () => {
 
     function removeDepartment(id){
         console.log(id);
-        deleteDepartment(id).then((response) => {
+        deleteDepartment(id).then(() => {
             getAllDepartments();
         }).catch(error => {
             console.error(error);

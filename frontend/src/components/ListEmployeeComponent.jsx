@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from "react"
 import {deleteEmployee, listofemployees} from "../Services/EmployeeService"
-import {useNavigate, useParams} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 const ListEmployeeComponent = () => {
 
     const[employees, setEmployees] = useState([])
 
     const navigate = useNavigate();
-
-    useEffect(() =>{
-        getAllEmployee()
-    }, [])
 
     function getAllEmployee(){
         listofemployees().then((response) => {
@@ -19,6 +15,11 @@ const ListEmployeeComponent = () => {
             console.error(error);
         })
     }
+
+    useEffect(() =>{
+        getAllEmployee()
+    }, [])
+
 
     function addNewEmployee() {
         navigate('/add-employee')
@@ -30,7 +31,7 @@ const ListEmployeeComponent = () => {
 
     function removeEmployee(id){
         console.log(id);
-        deleteEmployee(id).then((response) => {
+        deleteEmployee(id).then(() => {
             getAllEmployee();
         }).catch(error => {
             console.error(error);
