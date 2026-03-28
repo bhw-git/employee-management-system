@@ -1,6 +1,4 @@
-p
-
-        ackage net.java.Springbt_restapi.config;
+package net.java.Springbt_restapi.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
