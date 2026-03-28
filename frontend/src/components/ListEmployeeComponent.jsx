@@ -10,6 +10,8 @@ const ListEmployeeComponent = () => {
 
     function getAllEmployee(){
         listofemployees().then((response) => {
+            console.log("API Response:", response.data);      // ← add this
+            console.log("Type:", typeof response.data);
             setEmployees(response.data);
         }).catch(error => {
             console.error(error);
