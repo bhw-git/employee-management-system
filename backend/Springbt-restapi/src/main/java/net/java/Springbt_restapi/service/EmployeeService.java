@@ -1,18 +1,20 @@
 package net.java.Springbt_restapi.service;
 
-import net.java.Springbt_restapi.dto.EmployeeDto;
+import net.java.Springbt_restapi.dto.request.EmployeeCreateRequestDTO;
+import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
+import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
 
 import java.util.List;
 
 
 public interface EmployeeService {
-    EmployeeDto createEmployee(EmployeeDto employeeDto);
+    EmployeeResponseDTO createEmployee(EmployeeCreateRequestDTO employeeCreateRequestDTO);
 
-    EmployeeDto getEmployeeById(Long id);
+    EmployeeResponseDTO getEmployeeByEeid(String eeid);
 
-    List<EmployeeDto> getAllEmployees();
+    List<EmployeeResponseDTO> getAllEmployees();
 
-    EmployeeDto updateEmployee(Long id, EmployeeDto updatedEmployee);
+    EmployeeResponseDTO updateEmployee(String eeid, EmployeeUpdateRequestDTO employeeUpdateRequestDTO);
 
-    void deleteEmployee(Long id);
+    void deleteEmployee(String eeid);
 }

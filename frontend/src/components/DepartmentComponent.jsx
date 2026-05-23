@@ -7,6 +7,7 @@ const DepartmentComponent = () => {
 
     const [departmentName, setDepartmentName] = useState('');
     const [departmentDescription, setDepartmentDescription] = useState('');
+    
 
     const {id} = useParams();
 

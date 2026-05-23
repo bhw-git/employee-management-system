@@ -1,37 +1,92 @@
 package net.java.Springbt_restapi.mapper;
 
-import net.java.Springbt_restapi.dto.EmployeeDto;
+import net.java.Springbt_restapi.dto.request.EmployeeCreateRequestDTO;
+import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
+import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
+import net.java.Springbt_restapi.entity.DepartmentEntity;
 import net.java.Springbt_restapi.entity.EmployeeEntity;
 
 public class EmployeeMapper {
 
-    //This maps Employee Entity into the EmployeeDTO
-    //The Entity is converted to DTO
-    public static EmployeeDto mapToEmployeeDto(EmployeeEntity employeeEntity){
-        EmployeeDto employeeDto = new EmployeeDto();
-        employeeDto.setId(employeeEntity.getId());
-        employeeDto.setFirstName(employeeEntity.getFirstName());
-        employeeDto.setLastName(employeeEntity.getLastName());
-        employeeDto.setEmail(employeeEntity.getEmail());
-
-        if (employeeEntity.getDepartmentEntity() != null) {
-            employeeDto.setDepartment(employeeEntity.getDepartmentEntity().getDepartmentName());
-            employeeDto.setDepartmentId(employeeEntity.getDepartmentEntity().getId());
-        } else {
-            employeeDto.setDepartment(null);
-            employeeDto.setDepartmentId(null);
-        }
-        return employeeDto;
-    }
-
     //This maps EmployeeDto into the Employee Entity
     //The DTO is converted to Entity
-    public static EmployeeEntity mapToEmployeeEntity(EmployeeDto employeeDto){
+    public static EmployeeEntity mapToEmployeeEntity(EmployeeCreateRequestDTO createDTO){
         EmployeeEntity employeeEntity = new EmployeeEntity();
-        employeeEntity.setId(employeeDto.getId());
-        employeeEntity.setFirstName(employeeDto.getFirstName());
-        employeeEntity.setLastName(employeeDto.getLastName());
-        employeeEntity.setEmail(employeeDto.getEmail());
+
+        employeeEntity.setFirstName(createDTO.getFirstName());
+        employeeEntity.setLastName(createDTO.getLastName());
+        employeeEntity.setOfficialEmail(createDTO.getOfficialEmail());
+        employeeEntity.setPersonalEmail(createDTO.getPersonalEmail());
+        employeeEntity.setDob(createDTO.getDob());
+        employeeEntity.setGender(createDTO.getGender());
+        employeeEntity.setEmpStatus(createDTO.getEmpStatus());
+        employeeEntity.setProfilePhotoURL(createDTO.getProfilePhotoURL());
         return employeeEntity;
+    }
+
+    public static EmployeeResponseDTO mapToEmployeeResponseDTO(EmployeeEntity employeeEntity){
+        EmployeeResponseDTO responseDTO = new EmployeeResponseDTO();
+
+        responseDTO.setEeid(employeeEntity.getEeid());
+        responseDTO.setFirstName(employeeEntity.getFirstName());
+        responseDTO.setLastName(employeeEntity.getLastName());
+        responseDTO.setOfficialEmail(employeeEntity.getOfficialEmail());
+        responseDTO.setPersonalEmail(employeeEntity.getPersonalEmail());
+        responseDTO.setDob(employeeEntity.getDob());
+        responseDTO.setGender(employeeEntity.getGender());
+        responseDTO.setEmpStatus(employeeEntity.getEmpStatus());
+        responseDTO.setProfilePhotoURL(employeeEntity.getProfilePhotoURL());
+        if(employeeEntity.getDepartmentEntity()!=null){
+            responseDTO.setDepartment(
+                    employeeEntity
+                        .getDepartmentEntity()
+                        .getDepartmentName());
+            responseDTO.setDepartmentId(
+                    employeeEntity
+                            .getDepartmentEntity()
+                            .getId());
+        }
+        return responseDTO;
+    }
+
+    public static void updateEntityFromDTO(EmployeeUpdateRequestDTO dto, EmployeeEntity entity){
+        if (dto.getFirstName() != null) {
+            entity.setFirstName(dto.getFirstName());
+        }
+
+        if (dto.getLastName() != null) {
+            entity.setLastName(dto.getLastName());
+        }
+
+        if (dto.getOfficialEmail() != null) {
+            entity.setOfficialEmail(dto.getOfficialEmail());
+        }
+
+        if (dto.getPersonalEmail() != null) {
+            entity.setPersonalEmail(dto.getPersonalEmail());
+        }
+
+        if (dto.getDob() != null) {
+            entity.setDob(dto.getDob());
+        }
+
+        if (dto.getGender() != null) {
+            entity.setGender(dto.getGender());
+        }
+
+        if (dto.getEmpStatus() != null) {
+            entity.setEmpStatus(dto.getEmpStatus());
+        }
+
+        if (dto.getProfilePhotoURL() != null) {
+            entity.setProfilePhotoURL(dto.getProfilePhotoURL());
+        }
+
+        // Department update
+//        if (dto.getDepartmentId() != null) {
+//            DepartmentEntity departmentEntity = new DepartmentEntity();
+//            departmentEntity.setId(dto.getDepartmentId());
+//            entity.setDepartmentEntity(departmentEntity);
+//        }
     }
 }

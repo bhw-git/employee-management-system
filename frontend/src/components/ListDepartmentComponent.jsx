@@ -55,7 +55,6 @@ const ListDepartmentComponent = () => {
             <table className='table table-striped table-bordered'>
                 <thead>
                     <tr>
-                        <th>Department-ID</th>
                         <th>DepartmentName</th>
                         <th>DepartmentDescription</th>
                         <th>Action</th>
@@ -65,7 +64,6 @@ const ListDepartmentComponent = () => {
                     {
                         departments.map((department) =>
                             <tr key={department.id}>
-                                <td>{department.id}</td>
                                 <td>{department.departmentName}</td>
                                 <td>{department.departmentDescription}</td>
                                 <td>

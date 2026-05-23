@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createEmployee, getEmployee, updateEmployee } from '../Services/EmployeeService';
-import {listAllDepartments} from '../Services/DepartmentService'
+import {listAllDepartments} from '../Services/DepartmentService';
 
 const EmployeeComponent = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
+    const [officialEmail, setOfficialEmail] = useState('');
+    const [personalEmail, setPersonalEmail] = useState('');
+    const [dob, setDob] = useState('');
+    const [gender, setGender] = useState('');
+    const [empStatus, setEmpStatus] = useState('');
+    const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
     const [departmentId, setDepartmentId] = useState('');
     const [departments, setDepartments] = useState([]);
 
@@ -24,7 +29,12 @@ const EmployeeComponent = () => {
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
-        email: '',
+        officialEmail: '',
+        personalEmail: '',
+        dob:'',
+        gender:'',
+        empStatus:'',
+        profilePhotoUrl:'',
         department: ''
     });
 
@@ -40,13 +50,33 @@ const EmployeeComponent = () => {
             errorCopy.lastName = "Last Name is required";
             valid = false;
         }
-        if(!email.trim()){
-            errorCopy.email = "Email is required";
+        if(!officialEmail.trim()){
+            errorCopy.officialEmail = "Official Email is required";
+            valid = false;
+        }
+        if(!personalEmail.trim()){
+            errorCopy.personalEmail = "Personal Email is required";
+            valid = false;
+        }
+        if(!dob.trim()){
+            errorCopy.dob = "Date of Birth is required";
+            valid = false;
+        }
+        if(!gender.trim()){
+            errorCopy.gender = "Gender is required";
+            valid = false;
+        }
+        if(!empStatus.trim()){
+            errorCopy.empStatus = "Employee Status is required";
+            valid = false;
+        }
+        if(!profilePhotoUrl.trim()){
+            errorCopy.profilePhotoUrl = "ProfilePhotoURL is required";
             valid = false;
         }
         // console.log("departmentId:", departmentId, "Type:", typeof departmentId);
         if(!departmentId){
-            errorCopy.department= "Department is required";
+            errorCopy.departmentId= "Department is required";
             valid = false;
         }
 
@@ -73,7 +103,12 @@ const EmployeeComponent = () => {
             getEmployee(id).then((response) => {
                 setFirstName(response.data.firstName);
                 setLastName(response.data.lastName);
-                setEmail(response.data.email);
+                setOfficialEmail(response.data.officialEmail);
+                setPersonalEmail(response.data.personalEmail);
+                setDob(response.data.dob);
+                setGender(response.data.gender);
+                setEmpStatus(response.data.empStatus);
+                setProfilePhotoUrl(response.data.profilePhotoUrl);
                 setDepartmentId(response.data.departmentId);
             }).catch(error => {
                 console.error(error)
@@ -86,7 +121,7 @@ const EmployeeComponent = () => {
         
         if(validateForm()){
             
-            const employee = {firstName, lastName, email, departmentId}
+            const employee = {firstName, lastName, officialEmail, personalEmail, dob, gender, empStatus, profilePhotoUrl, departmentId}
             console.log(employee)
             if(id){
                 updateEmployee(id,employee).then((response) => {
@@ -143,18 +178,95 @@ const EmployeeComponent = () => {
                             {errors.lastName && <div className='invalid-feedback'>{errors.lastName}</div>}
                         </div>
                         <div className='form-group mb-2'>
-                            <label className='form-label'>Email: </label>
+                            <label className='form-label'>Official Email: </label>
                             <input
                                 type='email'
-                                placeholder='Enter Employee Email'
-                                name='email'
-                                value={email}
-                                className={`form-control ${errors.email ? 'is-invalid': '' }`}
-                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder='Enter Official Email'
+                                name='OfficialEmail'
+                                value={officialEmail}
+                                className={`form-control ${errors.officialEmail ? 'is-invalid': '' }`}
+                                onChange={(e) => setOfficialEmail(e.target.value)}
                             >
                             </input>
-                            {errors.email && <div className='invalid-feedback'>{errors.email}</div>}
+                            {errors.officialEmail && <div className='invalid-feedback'>{errors.officialEmail}</div>}
                         </div>
+
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>Personal Email: </label>
+                            <input
+                                type='email'
+                                placeholder='Enter Personal Email'
+                                name='PersonalEmail'
+                                value={personalEmail}
+                                className={`form-control ${errors.personalEmail ? 'is-invalid': '' }`}
+                                onChange={(e) => setPersonalEmail(e.target.value)}
+                            >
+                            </input>
+                            {errors.personalEmail && <div className='invalid-feedback'>{errors.personalEmail}</div>}
+                        </div>
+
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>DOB: </label>
+                            <input
+                                type='date'
+                                placeholder='Enter DOB'
+                                name='DOB'
+                                value={dob}
+                                className={`form-control ${errors.dob ? 'is-invalid': '' }`}
+                                onChange={(e) => setDob(e.target.value)}
+                            >
+                            </input>
+                            {errors.dob && <div className='invalid-feedback'>{errors.dob}</div>}
+                        </div>
+
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>Gender: </label>
+                            <select
+                                name='gender'
+                                value={gender}
+                                className={`form-control ${errors.gender ? 'is-invalid': '' }`}
+                                onChange={(e) => setGender(e.target.value)}
+                            >
+                                <option value=''>-- Select Status --</option>
+                                <option value='MALE'>Male</option>
+                                <option value='FEMALE'>Female</option>
+                                <option value='BINARY'>Binary</option>
+                                <option value='OTHER'>Other</option>
+                            </select>
+                            {errors.gender && <div className='invalid-feedback'>{errors.gender}</div>}
+                        </div>
+
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>Employee Status: </label>
+                            <select
+                                name='EmployeeStatus'
+                                value={empStatus}
+                                className={`form-control ${errors.empStatus ? 'is-invalid' : ''}`}
+                                onChange={(e) => setEmpStatus(e.target.value)}
+                            >
+                                <option value=''>-- Select Status --</option>
+                                <option value='ACTIVE'>Active</option>
+                                <option value='INACTIVE'>Inactive</option>
+                                <option value='ON_LEAVE'>On Leave</option>
+                                <option value='TERMINATED'>Terminated</option>
+                            </select>
+                            {errors.empStatus && <div className='invalid-feedback'>{errors.empStatus}</div>}
+                        </div>
+
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>ProfilePhotoURL: </label>
+                            <input
+                                type='text'
+                                placeholder='Enter ProfilePhotoURL'
+                                name='profilePhotoURL'
+                                value={profilePhotoUrl}
+                                className={`form-control ${errors.profilePhotoUrl ? 'is-invalid': '' }`}
+                                onChange={(e) => setProfilePhotoUrl(e.target.value)}
+                            >
+                            </input>
+                            {errors.profilePhotoUrl && <div className='invalid-feedback'>{errors.profilePhotoUrl}</div>}
+                        </div>
+
                         <div className='form-group mb-2'>
                             <label className='form-label'>Department Name: </label>
                             <select
