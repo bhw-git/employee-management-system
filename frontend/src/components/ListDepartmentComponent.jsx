@@ -52,7 +52,7 @@ const ListDepartmentComponent = () => {
         <div className='container'>
             <h2 className='text-center'>List of Departments</h2>
             <Link to='/add-department' onClick = {addNewDepartment} className='btn btn-primary mb-2'>Add Department</Link>
-            <table className='table table-striped table-bordered'>
+            <table className='table table-striped table-bordered table-hover text-center align-middle table-dark'>
                 <thead>
                     <tr>
                         <th>DepartmentName</th>

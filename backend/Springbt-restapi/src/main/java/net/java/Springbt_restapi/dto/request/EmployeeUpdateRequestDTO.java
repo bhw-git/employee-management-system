@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
 import net.java.Springbt_restapi.CustomClass.Gender;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,6 @@ public class EmployeeUpdateRequestDTO {
     private LocalDate dob;
     private Gender gender;
     private EmployeeStatus empStatus;
-    private String profilePhotoURL;
+    private MultipartFile profilePhoto;
     private Long departmentId;
 }

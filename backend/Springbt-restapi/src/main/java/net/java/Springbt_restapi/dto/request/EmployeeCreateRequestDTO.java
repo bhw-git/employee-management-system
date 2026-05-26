@@ -6,11 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
 import net.java.Springbt_restapi.CustomClass.Gender;
-import net.java.Springbt_restapi.entity.EmployeeEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -34,7 +33,7 @@ public class EmployeeCreateRequestDTO {
     private Gender gender;
     @NotNull
     private EmployeeStatus empStatus;
-    private String profilePhotoURL;
+    private MultipartFile profilePhoto;
     @NotNull
     private Long departmentId;
 }

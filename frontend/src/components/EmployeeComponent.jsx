@@ -12,10 +12,11 @@ const EmployeeComponent = () => {
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('');
     const [empStatus, setEmpStatus] = useState('');
-    const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
+    const [profilePhotoURL, setProfilePhotoURL] = useState(null);
     const [departmentId, setDepartmentId] = useState('');
     const [departments, setDepartments] = useState([]);
 
+    //List all Departments
     useEffect(() => {
         listAllDepartments().then((response) => {
             setDepartments(response.data);
@@ -24,8 +25,10 @@ const EmployeeComponent = () => {
         })
     },[])
 
+    //Record the employee ID
     const {id} = useParams();
 
+    //Error handling
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
@@ -34,10 +37,11 @@ const EmployeeComponent = () => {
         dob:'',
         gender:'',
         empStatus:'',
-        profilePhotoUrl:'',
+        profilePhotoURL:'',
         department: ''
     });
 
+    //Validate Form
     function validateForm(){
         let valid = true;
         const errorCopy = {... errors}
@@ -70,20 +74,19 @@ const EmployeeComponent = () => {
             errorCopy.empStatus = "Employee Status is required";
             valid = false;
         }
-        if(!profilePhotoUrl.trim()){
-            errorCopy.profilePhotoUrl = "ProfilePhotoURL is required";
-            valid = false;
-        }
-        // console.log("departmentId:", departmentId, "Type:", typeof departmentId);
+        // if(!profilePhotoUrl.value){
+        //     errorCopy.profilePhotoUrl = "ProfilePhotoURL is required";
+        //     valid = false;
+        // }
         if(!departmentId){
             errorCopy.departmentId= "Department is required";
             valid = false;
         }
-
         setErrors(errorCopy);
         return valid;
     }
 
+    //Title of the Page based on the button we choose
     function pageTitle(){
         if(id){
             return <h2 className='text-center'>Update Employee</h2>
@@ -98,6 +101,7 @@ const EmployeeComponent = () => {
 
     const navigate = useNavigate();
 
+    //Handle employees updation data based on the employee ID
     useEffect(() => {
         if(id){
             getEmployee(id).then((response) => {
@@ -108,30 +112,52 @@ const EmployeeComponent = () => {
                 setDob(response.data.dob);
                 setGender(response.data.gender);
                 setEmpStatus(response.data.empStatus);
-                setProfilePhotoUrl(response.data.profilePhotoUrl);
+                setProfilePhotoURL(response.data.profilePhotoURL);
                 setDepartmentId(response.data.departmentId);
             }).catch(error => {
                 console.error(error)
             })
         }
     }, [id])
-
+    
+    
+    //Handles Profile photo file upload
+    const handleFileChange = (event) => {
+        setProfilePhotoURL(event.target.files[0]);
+    };
+    
     function saveorUpdateEmployee(e){
         e.preventDefault();
         
+        const formData = new FormData();
         if(validateForm()){
-            
-            const employee = {firstName, lastName, officialEmail, personalEmail, dob, gender, empStatus, profilePhotoUrl, departmentId}
-            console.log(employee)
+            //Handle Multipart Form Data
+            formData.append("firstName", firstName);
+            formData.append("lastName",lastName);
+            formData.append("officialEmail", officialEmail);
+            formData.append("personalEmail", personalEmail);
+            formData.append("dob", dob);
+            formData.append("gender", gender);
+            formData.append("empStatus", empStatus);
+            formData.append("departmentId", departmentId);
+            if(profilePhotoURL){
+                formData.append("profilePhoto",profilePhotoURL);
+            }
+            for(let pair of formData.entries()){
+                console.log(pair[0],pair[1]);
+            }
+
+            // const employee = {firstName, lastName, officialEmail, personalEmail, dob, gender, empStatus, profilePhotoURL, departmentId}
+            // console.log(employee)
             if(id){
-                updateEmployee(id,employee).then((response) => {
+                updateEmployee(id,formData).then((response) => {
                     console.log(response.data);
                     navigate('/employees');
                 }).catch(error => {
                     console.error(error);
                 })
             }else{
-                createEmployee(employee).then((response) => {
+                createEmployee(formData).then((response) => {
                 console.log(response.data);
                 navigate('/employees')
             }).catch(error => {
@@ -253,18 +279,25 @@ const EmployeeComponent = () => {
                             {errors.empStatus && <div className='invalid-feedback'>{errors.empStatus}</div>}
                         </div>
 
-                        <div className='form-group mb-2'>
-                            <label className='form-label'>ProfilePhotoURL: </label>
+                        <div className='form-group mb-2 mb-3'>
+                            <label className='form-label'>Profile Photo </label>
                             <input
-                                type='text'
-                                placeholder='Enter ProfilePhotoURL'
-                                name='profilePhotoURL'
-                                value={profilePhotoUrl}
-                                className={`form-control ${errors.profilePhotoUrl ? 'is-invalid': '' }`}
-                                onChange={(e) => setProfilePhotoUrl(e.target.value)}
+                                type='file'
+                                placeholder='Upload Profile Photo'
+                                accept="image/*"
+                                className={`form-control ${errors.profilePhotoURL ? 'is-invalid': '' }`}
+                                onChange={handleFileChange}
                             >
                             </input>
-                            {errors.profilePhotoUrl && <div className='invalid-feedback'>{errors.profilePhotoUrl}</div>}
+                            {/* To preview the uploaded image in the form  */}
+                            {
+                                profilePhotoURL && <img 
+                                src = {typeof profilePhotoURL === "string" ? `http://localhost:8080/uploads/profile/${profilePhotoURL}` : URL.createObjectURL(profilePhotoURL)}
+                                width="120"
+                                className='mt-3 rounded'
+                                alt='preview uploaded photo' />
+                            }
+                            {errors.profilePhotoURL && <div className='invalid-feedback'>{errors.profilePhotoURL}</div>}
                         </div>
 
                         <div className='form-group mb-2'>

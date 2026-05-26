@@ -10,8 +10,7 @@ const ListEmployeeComponent = () => {
 
     function getAllEmployee(){
         listofemployees().then((response) => {
-            console.log("API Response:", response.data);      // ← add this
-            console.log("Type:", typeof response.data);
+            // console.log("API Response:", response.data);      // ← add this to log all employees 
             setEmployees(response.data);
         }).catch(error => {
             console.error(error);
@@ -41,21 +40,21 @@ const ListEmployeeComponent = () => {
     }
 
     return(
-        <div className="container-fluid table-responsive">
+        <div className="container-fluid table-responsive ">
             <h2 className="text-center">List of Employees</h2>
             <button className="btn btn-primary mb-2" onClick={addNewEmployee} style={{background: '#64B5F6'}}>Add Employees</button>
-            <table className="table table-striped table-bordered">
-                <thead >
+            <table className="table table-striped table-bordered table-hover text-center align-middle table-dark">
+                <thead className="thead-dark">
                     <tr>
                         <th>Employee EEID</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
+                        <th>Profile Photo</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Official Email</th>
                         <th>Personal Email</th>
                         <th>DOB</th>
                         <th>Gender</th>
                         <th>Status</th>
-                        <th>ProfilePhotoURL</th>
                         <th>Department</th>
                         <th>Actions</th>
                     </tr>
@@ -65,6 +64,19 @@ const ListEmployeeComponent = () => {
                     employees.map((employee) =>
                         <tr key={employee.eeid}>
                             <td>{employee.eeid}</td>
+                            <td className="flex justify-content-center align-items-center">
+                                {
+                                    employee.profilePhotoURL ? 
+                                    <img
+                                    src={`http://localhost:8080/uploads/profile/${employee.profilePhotoURL}`}
+                                    alt="profile"
+                                    width="80"
+                                    height="80"
+                                    className="rounded-circle border shadow-sm"
+                                    style={{objectFit:"cover"}}
+                                    /> : "No Photo" 
+                                }
+                            </td>
                             <td>{employee.firstName}</td>
                             <td>{employee.lastName}</td>
                             <td>{employee.officialEmail}</td>
@@ -72,14 +84,6 @@ const ListEmployeeComponent = () => {
                             <td>{employee.dob}</td>
                             <td>{employee.gender}</td>
                             <td>{employee.empStatus}</td>
-                            <td>
-                                <img
-                                    src={employee.profilePhotoURL}
-                                    alt="profile"
-                                    width="50"
-                                    height="50"
-                                />
-                            </td>
                             <td>{employee.department}</td>
                             <td>
                                 <button

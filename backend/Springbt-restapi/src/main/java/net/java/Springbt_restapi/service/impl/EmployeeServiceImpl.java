@@ -11,7 +11,9 @@ import net.java.Springbt_restapi.mapper.EmployeeMapper;
 import net.java.Springbt_restapi.repository.DepartmentRepository;
 import net.java.Springbt_restapi.repository.EmployeeRepository;
 import net.java.Springbt_restapi.service.EmployeeService;
+import net.java.Springbt_restapi.service.FileStorageService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private final FileStorageService fileStorageService;
     private EmployeeRepository employeeRepository;
     private DepartmentRepository departmentRepository;
 
@@ -31,6 +34,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Department Id doesn't exist" + employeeCreateRequestDTO.getDepartmentId()));
            employeeEntity.setDepartmentEntity(departmentEntity);
         EmployeeEntity savedEmployee = employeeRepository.save(employeeEntity);
+        //Handle Multipart Form Data for ProfilePhoto
+        MultipartFile photo = employeeCreateRequestDTO.getProfilePhoto();
+        System.out.println("Create Method Photo: " + photo);
+        if(photo!=null && !photo.isEmpty()){
+            String fileName = fileStorageService.save(photo);
+            System.out.println("Create Method filename: " + fileName);
+            employeeEntity.setProfilePhotoURL(fileName);
+        }
         return EmployeeMapper.mapToEmployeeResponseDTO(savedEmployee);
     }
 
@@ -58,8 +69,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeEntity.setPersonalEmail(employeeUpdateRequestDTO.getPersonalEmail());
         employeeEntity.setDob(employeeUpdateRequestDTO.getDob());
         employeeEntity.setGender(employeeUpdateRequestDTO.getGender());
-        employeeEntity.setProfilePhotoURL(employeeUpdateRequestDTO.getProfilePhotoURL());
-
+        //Handle Multipart Form Data of Uploaded Photo
+        MultipartFile photo = employeeUpdateRequestDTO.getProfilePhoto();
+        System.out.println("Update Method Photo:" + photo);
+        if(photo!= null && !photo.isEmpty()){
+            String fileName = fileStorageService.save(photo);
+            System.out.println("Update Method fileName:" + fileName);
+            employeeEntity.setProfilePhotoURL(fileName);
+        }
         EmployeeMapper.updateEntityFromDTO(employeeUpdateRequestDTO, employeeEntity);
         if(employeeUpdateRequestDTO.getDepartmentId()!=null){
             DepartmentEntity departmentEntity = departmentRepository.findById(employeeUpdateRequestDTO.getDepartmentId())

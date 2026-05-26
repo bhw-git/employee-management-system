@@ -6,6 +6,7 @@ import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
 import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
 import net.java.Springbt_restapi.service.EmployeeService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -22,8 +23,14 @@ public class EmployeeController {
     }
 
     //Building Add Employee using RestAPI
-    @PostMapping
-    public ResponseEntity<EmployeeResponseDTO> createEmployee( @RequestBody EmployeeCreateRequestDTO employeeCreateRequestDTO){
+//    @PostMapping
+//    public ResponseEntity<EmployeeResponseDTO> createEmployee( @RequestBody EmployeeCreateRequestDTO employeeCreateRequestDTO){
+//        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
+//        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+//    }
+    //Update to accept Multipart form data
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EmployeeResponseDTO> createEmployee( @ModelAttribute EmployeeCreateRequestDTO employeeCreateRequestDTO){
         EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
@@ -43,10 +50,10 @@ public class EmployeeController {
     }
 
     //Building Put Employee using RESTAPI
-    @PatchMapping("{eeid}")
-    public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable String eeid, @RequestBody EmployeeUpdateRequestDTO employeeUpdateRequestDTO){
-        EmployeeResponseDTO employeeDto1 = employeeService.updateEmployee(eeid,employeeUpdateRequestDTO);
-        return ResponseEntity.ok(employeeDto1);
+    @PatchMapping(value = "{eeid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable String eeid, @ModelAttribute EmployeeUpdateRequestDTO employeeUpdateRequestDTO){
+        EmployeeResponseDTO employeeDto = employeeService.updateEmployee(eeid,employeeUpdateRequestDTO);
+        return ResponseEntity.ok(employeeDto);
     }
 
     @DeleteMapping("{eeid}")

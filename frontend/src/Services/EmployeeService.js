@@ -7,11 +7,11 @@ const REST_API_BASE_URL = 'http://localhost:8080/api/employees';
 
 export const listofemployees = () => employeeAPI.get("");
 
-export const createEmployee = (employee) => employeeAPI.post("",employee);
+export const createEmployee = (formData) => employeeAPI.post("",formData);
 
 export const getEmployee = (employeeId) => employeeAPI.get(`/${employeeId}`);
 
-export const updateEmployee = (employeeId, employee) => employeeAPI.patch(`/${employeeId}`, employee);
+export const updateEmployee = (employeeId, formData) => employeeAPI.patch(`/${employeeId}`, formData);
 
 export const deleteEmployee = (employeeId) => employeeAPI.delete(`/${employeeId}`);
 

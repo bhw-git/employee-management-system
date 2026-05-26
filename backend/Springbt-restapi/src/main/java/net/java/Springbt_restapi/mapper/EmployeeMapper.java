@@ -20,7 +20,7 @@ public class EmployeeMapper {
         employeeEntity.setDob(createDTO.getDob());
         employeeEntity.setGender(createDTO.getGender());
         employeeEntity.setEmpStatus(createDTO.getEmpStatus());
-        employeeEntity.setProfilePhotoURL(createDTO.getProfilePhotoURL());
+        employeeEntity.setProfilePhotoURL(String.valueOf(createDTO.getProfilePhoto()));
         return employeeEntity;
     }
 
@@ -76,10 +76,6 @@ public class EmployeeMapper {
 
         if (dto.getEmpStatus() != null) {
             entity.setEmpStatus(dto.getEmpStatus());
-        }
-
-        if (dto.getProfilePhotoURL() != null) {
-            entity.setProfilePhotoURL(dto.getProfilePhotoURL());
         }
 
         // Department update
