@@ -37,6 +37,9 @@ const ListDepartmentComponent = () => {
             console.error(error);
         })
     }
+    function returnHome(){
+        navigate('/employees')
+    }
     
     // useEffect(() =>{
     //         getAllDepartments().then((response) => {
@@ -52,6 +55,7 @@ const ListDepartmentComponent = () => {
         <div className='container'>
             <h2 className='text-center'>List of Departments</h2>
             <Link to='/add-department' onClick = {addNewDepartment} className='btn btn-primary mb-2'>Add Department</Link>
+            <button to='/employees' onClick={returnHome} className='btn btn-primary mb-2'>Home</button>
             <table className='table table-striped table-bordered table-hover text-center align-middle table-dark'>
                 <thead>
                     <tr>

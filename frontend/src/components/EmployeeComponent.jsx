@@ -13,6 +13,7 @@ const EmployeeComponent = () => {
     const [gender, setGender] = useState('');
     const [empStatus, setEmpStatus] = useState('');
     const [profilePhotoURL, setProfilePhotoURL] = useState(null);
+    const [existingPhotoURL, setExistingPhotoURL] = useState('');
     const [departmentId, setDepartmentId] = useState('');
     const [departments, setDepartments] = useState([]);
 
@@ -112,7 +113,7 @@ const EmployeeComponent = () => {
                 setDob(response.data.dob);
                 setGender(response.data.gender);
                 setEmpStatus(response.data.empStatus);
-                setProfilePhotoURL(response.data.profilePhotoURL);
+                setExistingPhotoURL(response.data.profilePhotoURL);
                 setDepartmentId(response.data.departmentId);
             }).catch(error => {
                 console.error(error)
@@ -140,7 +141,7 @@ const EmployeeComponent = () => {
             formData.append("gender", gender);
             formData.append("empStatus", empStatus);
             formData.append("departmentId", departmentId);
-            if(profilePhotoURL){
+            if(profilePhotoURL instanceof File){
                 formData.append("profilePhoto",profilePhotoURL);
             }
             for(let pair of formData.entries()){
@@ -165,6 +166,10 @@ const EmployeeComponent = () => {
             })
             }
         }
+    }
+
+    function returnHome(){
+        navigate('/employees')
     }
 
   return (
@@ -317,6 +322,7 @@ const EmployeeComponent = () => {
                             {errors.department && <div className='invalid-feedback'>{errors.department}</div>}
                         </div>
                         <button className='btn btn-success' onClick={saveorUpdateEmployee} onSubmit={validateForm}>Submit</button>
+                        <button className='btn btn-danger' onClick={returnHome}>Cancel</button>
                     </form>
                 </div>
             </div>

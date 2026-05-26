@@ -36,10 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeEntity savedEmployee = employeeRepository.save(employeeEntity);
         //Handle Multipart Form Data for ProfilePhoto
         MultipartFile photo = employeeCreateRequestDTO.getProfilePhoto();
-        System.out.println("Create Method Photo: " + photo);
         if(photo!=null && !photo.isEmpty()){
             String fileName = fileStorageService.save(photo);
-            System.out.println("Create Method filename: " + fileName);
             employeeEntity.setProfilePhotoURL(fileName);
         }
         return EmployeeMapper.mapToEmployeeResponseDTO(savedEmployee);
@@ -71,10 +69,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeEntity.setGender(employeeUpdateRequestDTO.getGender());
         //Handle Multipart Form Data of Uploaded Photo
         MultipartFile photo = employeeUpdateRequestDTO.getProfilePhoto();
-        System.out.println("Update Method Photo:" + photo);
         if(photo!= null && !photo.isEmpty()){
             String fileName = fileStorageService.save(photo);
-            System.out.println("Update Method fileName:" + fileName);
             employeeEntity.setProfilePhotoURL(fileName);
         }
         EmployeeMapper.updateEntityFromDTO(employeeUpdateRequestDTO, employeeEntity);
@@ -95,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        Other method
 //        employeeRepository.deleteById(id);
     }
-
+    //Generate Employee UUID
     private String generateEEID(){
         return "EMP-" + UUID.randomUUID()
                 .toString()

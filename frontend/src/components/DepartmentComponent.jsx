@@ -78,6 +78,10 @@ const DepartmentComponent = () => {
       }
     }
 
+    function returnHome(){
+      navigate('/departments')
+    }
+
   return (
     <div>
       <div className='container'>
@@ -116,6 +120,8 @@ const DepartmentComponent = () => {
                     {errors.departmentDescription && <div className='invalid-feedback'>{errors.departmentDescription}</div>}
                 </div>
                 <button className='btn btn-success' onClick={(e) => saveOrUpdateDepartment(e)} onSubmit={validateForm}>Submit</button>
+                <button className='btn btn-danger' onClick={returnHome}>Cancel</button>
+
               </form>
             </div>
           </div>
