@@ -39,3 +39,4 @@ buildNumber.properties
 .env.production
 
 src/main/resources/application-local.properties
+uploads/profile
