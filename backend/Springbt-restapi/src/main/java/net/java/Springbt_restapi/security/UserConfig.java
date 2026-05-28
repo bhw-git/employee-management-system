@@ -12,10 +12,22 @@ public class UserConfig {
     @Bean
     public UserDetailsService userDetailsService() {
 
+        UserDetails employee =
+                User.builder()
+                        .username("employee")
+                        .password("{noop}employee123")
+                        .roles("EMPLOYEE")
+                        .build();
+        UserDetails manager =
+                User.builder()
+                        .username("manager")
+                        .password("{noop}manager123")
+                        .roles("MANAGER")
+                        .build();
         UserDetails admin =
                 User.builder()
                         .username("admin")
-                        .password("{noop}password123")
+                        .password("{noop}admin123")
                         .roles("ADMIN")
                         .build();
         UserDetails hr =
@@ -26,6 +38,8 @@ public class UserConfig {
                         .build();
 
         return new InMemoryUserDetailsManager(
+                employee,
+                manager,
                 admin,
                 hr);
     }

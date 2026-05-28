@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
 import net.java.Springbt_restapi.CustomClass.Gender;
+import net.java.Springbt_restapi.CustomClass.Role;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -48,6 +50,9 @@ public class EmployeeEntity {
 
     @Column(name = "profile_photo_url")
     private String profilePhotoURL;
+
+    @Column(name = "role")
+    private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", nullable = false)

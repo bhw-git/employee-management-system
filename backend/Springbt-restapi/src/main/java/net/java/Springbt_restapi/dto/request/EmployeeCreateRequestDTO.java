@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
 import net.java.Springbt_restapi.CustomClass.Gender;
+import net.java.Springbt_restapi.CustomClass.Role;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -34,6 +35,8 @@ public class EmployeeCreateRequestDTO {
     @NotNull
     private EmployeeStatus empStatus;
     private MultipartFile profilePhoto;
+    @NotNull
+    private Role role;
     @NotNull
     private Long departmentId;
 }

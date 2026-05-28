@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
 import net.java.Springbt_restapi.CustomClass.Gender;
+import net.java.Springbt_restapi.CustomClass.Role;
 
 import java.time.LocalDate;
 @Data
@@ -18,6 +19,7 @@ public class EmployeeResponseDTO {
     private Gender gender;
     private EmployeeStatus empStatus;
     private String profilePhotoURL;
+    private Role role;
     private String department;
     private Long departmentId;
 }

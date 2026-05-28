@@ -3,7 +3,6 @@ package net.java.Springbt_restapi.mapper;
 import net.java.Springbt_restapi.dto.request.EmployeeCreateRequestDTO;
 import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
 import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
-import net.java.Springbt_restapi.entity.DepartmentEntity;
 import net.java.Springbt_restapi.entity.EmployeeEntity;
 
 public class EmployeeMapper {
@@ -21,6 +20,7 @@ public class EmployeeMapper {
         employeeEntity.setGender(createDTO.getGender());
         employeeEntity.setEmpStatus(createDTO.getEmpStatus());
         employeeEntity.setProfilePhotoURL(String.valueOf(createDTO.getProfilePhoto()));
+        employeeEntity.setRole(createDTO.getRole());
         return employeeEntity;
     }
 
@@ -36,6 +36,7 @@ public class EmployeeMapper {
         responseDTO.setGender(employeeEntity.getGender());
         responseDTO.setEmpStatus(employeeEntity.getEmpStatus());
         responseDTO.setProfilePhotoURL(employeeEntity.getProfilePhotoURL());
+        responseDTO.setRole(employeeEntity.getRole());
         if(employeeEntity.getDepartmentEntity()!=null){
             responseDTO.setDepartment(
                     employeeEntity
@@ -76,6 +77,10 @@ public class EmployeeMapper {
 
         if (dto.getEmpStatus() != null) {
             entity.setEmpStatus(dto.getEmpStatus());
+        }
+
+        if (dto.getRole() != null){
+            entity.setRole(dto.getRole());
         }
 
         // Department update

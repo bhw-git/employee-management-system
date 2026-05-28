@@ -14,6 +14,7 @@ const EmployeeComponent = () => {
     const [empStatus, setEmpStatus] = useState('');
     const [profilePhotoURL, setProfilePhotoURL] = useState(null);
     const [existingPhotoURL, setExistingPhotoURL] = useState('');
+    const [role, setRole] = useState('');
     const [departmentId, setDepartmentId] = useState('');
     const [departments, setDepartments] = useState([]);
 
@@ -39,7 +40,8 @@ const EmployeeComponent = () => {
         gender:'',
         empStatus:'',
         profilePhotoURL:'',
-        department: ''
+        role:'',
+        departmentId: ''
     });
 
     //Validate Form
@@ -63,16 +65,20 @@ const EmployeeComponent = () => {
             errorCopy.personalEmail = "Personal Email is required";
             valid = false;
         }
-        if(!dob.trim()){
+        if(!dob){
             errorCopy.dob = "Date of Birth is required";
             valid = false;
         }
-        if(!gender.trim()){
+        if(!gender){
             errorCopy.gender = "Gender is required";
             valid = false;
         }
-        if(!empStatus.trim()){
+        if(!empStatus){
             errorCopy.empStatus = "Employee Status is required";
+            valid = false;
+        }
+        if(!role){
+            errorCopy.role = "Role is required";
             valid = false;
         }
         // if(!profilePhotoUrl.value){
@@ -114,6 +120,7 @@ const EmployeeComponent = () => {
                 setGender(response.data.gender);
                 setEmpStatus(response.data.empStatus);
                 setExistingPhotoURL(response.data.profilePhotoURL);
+                setRole(response.data.role);
                 setDepartmentId(response.data.departmentId);
             }).catch(error => {
                 console.error(error)
@@ -141,6 +148,7 @@ const EmployeeComponent = () => {
             formData.append("gender", gender);
             formData.append("empStatus", empStatus);
             formData.append("departmentId", departmentId);
+            formData.append("role",role);
             if(profilePhotoURL instanceof File){
                 formData.append("profilePhoto",profilePhotoURL);
             }
@@ -284,6 +292,23 @@ const EmployeeComponent = () => {
                             {errors.empStatus && <div className='invalid-feedback'>{errors.empStatus}</div>}
                         </div>
 
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>Role: </label>
+                            <select
+                                name='role'
+                                value={role}
+                                className={`form-control ${errors.role ? 'is-invalid' : ''}`}
+                                onChange={(e) => setRole(e.target.value)}
+                            >
+                                <option value=''>-- Select Status --</option>
+                                <option value='MANAGER'>Manager</option>
+                                <option value='EMPLOYEE'>Employee</option>
+                                <option value='HR'>HR</option>
+                                <option value='ADMIN'>Admin</option>
+                            </select>
+                            {errors.role && <div className='invalid-feedback'>{errors.role}</div>}
+                        </div>
+
                         <div className='form-group mb-2 mb-3'>
                             <label className='form-label'>Profile Photo </label>
                             <input
@@ -308,18 +333,18 @@ const EmployeeComponent = () => {
                         <div className='form-group mb-2'>
                             <label className='form-label'>Department Name: </label>
                             <select
-                                className={`form-control ${errors.department ? 'is-invalid': '' }`}
+                                className={`form-control ${errors.departmentId ? 'is-invalid': '' }`}
                                 value={departmentId}
                                 onChange={(e) => setDepartmentId(e.target.value)}
                             >
-                                <option value="Select Department">Select Department</option>
+                                <option value="">Select Department</option>
                                 {
                                     departments.map(department => 
                                         <option key={department.id} value={department.id}>{department.departmentName}</option>
                                     )
                                 }
                             </select>
-                            {errors.department && <div className='invalid-feedback'>{errors.department}</div>}
+                            {errors.departmentId && <div className='invalid-feedback'>{errors.departmentId}</div>}
                         </div>
                         <button className='btn btn-success' onClick={saveorUpdateEmployee} onSubmit={validateForm}>Submit</button>
                         <button className='btn btn-danger' onClick={returnHome}>Cancel</button>

@@ -46,14 +46,15 @@ const ListEmployeeComponent = () => {
             <table className="table table-striped table-bordered table-hover text-center align-middle table-dark">
                 <thead className="thead-dark">
                     <tr>
-                        <th>Employee EEID</th>
+                        <th>Employee ID</th>
                         <th>Profile Photo</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Official Email</th>
                         <th>Personal Email</th>
                         <th>DOB</th>
-                        <th>Gender</th>
+                        <th>Gender</th> 
+                        <th>Role</th>
                         <th>Status</th>
                         <th>Department</th>
                         <th>Actions</th>
@@ -83,6 +84,7 @@ const ListEmployeeComponent = () => {
                             <td>{employee.personalEmail}</td>
                             <td>{employee.dob}</td>
                             <td>{employee.gender}</td>
+                            <td>{employee.role}</td>
                             <td>{employee.empStatus}</td>
                             <td>{employee.department}</td>
                             <td>
