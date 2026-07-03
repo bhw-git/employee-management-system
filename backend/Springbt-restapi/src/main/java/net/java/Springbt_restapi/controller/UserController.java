@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api/users")
+@RequestMapping({"/api/users","/api/v1/users"})
 public class UserController {
 
     private final UserService userService;

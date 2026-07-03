@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api/departments")
+@RequestMapping({"/api/departments","/api/v1/departments"})
 @AllArgsConstructor
 public class DepartmentController {
 
