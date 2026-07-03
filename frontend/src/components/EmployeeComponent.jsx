@@ -301,10 +301,11 @@ const EmployeeComponent = () => {
                                 onChange={(e) => setRole(e.target.value)}
                             >
                                 <option value=''>-- Select Status --</option>
-                                <option value='MANAGER'>Manager</option>
-                                <option value='EMPLOYEE'>Employee</option>
-                                <option value='HR'>HR</option>
+                                <option value='SUPER_ADMIN'>Super Admin</option>
                                 <option value='ADMIN'>Admin</option>
+                                <option value='MANAGER'>Manager</option>
+                                <option value='HR'>HR</option>
+                                <option value='EMPLOYEE'>Employee</option>
                             </select>
                             {errors.role && <div className='invalid-feedback'>{errors.role}</div>}
                         </div>

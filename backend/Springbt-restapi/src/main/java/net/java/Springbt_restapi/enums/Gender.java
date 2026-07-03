@@ -1,4 +1,4 @@
-package net.java.Springbt_restapi.CustomClass;
+package net.java.Springbt_restapi.enums;
 
 public enum Gender {
     MALE,

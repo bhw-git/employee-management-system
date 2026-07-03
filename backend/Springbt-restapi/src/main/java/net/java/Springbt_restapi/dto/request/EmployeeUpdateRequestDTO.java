@@ -4,9 +4,9 @@ import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
-import net.java.Springbt_restapi.CustomClass.Gender;
-import net.java.Springbt_restapi.CustomClass.Role;
+import net.java.Springbt_restapi.enums.EmployeeStatus;
+import net.java.Springbt_restapi.enums.Gender;
+import net.java.Springbt_restapi.enums.Role;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;

@@ -2,9 +2,9 @@ package net.java.Springbt_restapi.dto.response;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
-import net.java.Springbt_restapi.CustomClass.Gender;
-import net.java.Springbt_restapi.CustomClass.Role;
+import net.java.Springbt_restapi.enums.EmployeeStatus;
+import net.java.Springbt_restapi.enums.Gender;
+import net.java.Springbt_restapi.enums.Role;
 
 import java.time.LocalDate;
 @Data

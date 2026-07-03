@@ -19,7 +19,7 @@ public class EmployeeMapper {
         employeeEntity.setDob(createDTO.getDob());
         employeeEntity.setGender(createDTO.getGender());
         employeeEntity.setEmpStatus(createDTO.getEmpStatus());
-        employeeEntity.setProfilePhotoURL(String.valueOf(createDTO.getProfilePhoto()));
+//        employeeEntity.setProfilePhotoURL(String.valueOf(createDTO.getProfilePhoto()));
         employeeEntity.setRole(createDTO.getRole());
         return employeeEntity;
     }
@@ -40,8 +40,8 @@ public class EmployeeMapper {
         if(employeeEntity.getDepartmentEntity()!=null){
             responseDTO.setDepartment(
                     employeeEntity
-                        .getDepartmentEntity()
-                        .getDepartmentName());
+                            .getDepartmentEntity()
+                            .getDepartmentName());
             responseDTO.setDepartmentId(
                     employeeEntity
                             .getDepartmentEntity()

@@ -24,22 +24,22 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final FileStorageService fileStorageService;
-    private EmployeeRepository employeeRepository;
-    private DepartmentRepository departmentRepository;
+    private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
 
     public EmployeeResponseDTO createEmployee(EmployeeCreateRequestDTO employeeCreateRequestDTO) {
         EmployeeEntity employeeEntity = EmployeeMapper.mapToEmployeeEntity(employeeCreateRequestDTO);
-        employeeEntity.setEeid(generateEEID());
+        employeeEntity.setEeid(generateUUID());
         DepartmentEntity departmentEntity = departmentRepository.findById(employeeCreateRequestDTO.getDepartmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department Id doesn't exist" + employeeCreateRequestDTO.getDepartmentId()));
-           employeeEntity.setDepartmentEntity(departmentEntity);
+        employeeEntity.setDepartmentEntity(departmentEntity);
         EmployeeEntity savedEmployee = employeeRepository.save(employeeEntity);
         //Handle Multipart Form Data for ProfilePhoto
-        MultipartFile photo = employeeCreateRequestDTO.getProfilePhoto();
-        if(photo!=null && !photo.isEmpty()){
-            String fileName = fileStorageService.save(photo);
-            employeeEntity.setProfilePhotoURL(fileName);
-        }
+//        MultipartFile photo = employeeCreateRequestDTO.getProfilePhoto();
+//        if(photo!=null && !photo.isEmpty()){
+//            String fileName = fileStorageService.save(photo);
+//            employeeEntity.setProfilePhotoURL(fileName);
+//        }
         return EmployeeMapper.mapToEmployeeResponseDTO(savedEmployee);
     }
 
@@ -59,7 +59,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeResponseDTO updateEmployee(String eeid, EmployeeUpdateRequestDTO employeeUpdateRequestDTO) {
-        EmployeeEntity employeeEntity = employeeRepository.findByEeidWithDepartment(eeid).orElseThrow(() -> new ResourceNotFoundException("Employee doesn't exist" + eeid));
+        EmployeeEntity employeeEntity = employeeRepository.findByEeidWithDepartment(eeid)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee doesn't exist" + eeid));
 
         employeeEntity.setFirstName(employeeUpdateRequestDTO.getFirstName());
         employeeEntity.setLastName(employeeUpdateRequestDTO.getLastName());
@@ -92,11 +93,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        employeeRepository.deleteById(id);
     }
     //Generate Employee UUID
-    private String generateEEID(){
+    private String generateUUID(){
         return "EMP-" + UUID.randomUUID()
                 .toString()
                 .substring(0,7)
                 .toUpperCase();
     }
-
 }

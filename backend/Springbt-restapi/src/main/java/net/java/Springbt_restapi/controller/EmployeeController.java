@@ -1,6 +1,6 @@
 package net.java.Springbt_restapi.controller;
 
-import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import net.java.Springbt_restapi.dto.request.EmployeeCreateRequestDTO;
 import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
 import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
@@ -14,26 +14,23 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/employees")
+@RequiredArgsConstructor
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
     //Building Add Employee using RestAPI
-//    @PostMapping
-//    public ResponseEntity<EmployeeResponseDTO> createEmployee( @RequestBody EmployeeCreateRequestDTO employeeCreateRequestDTO){
-//        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
-//        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
-//    }
-    //Update to accept Multipart form data
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<EmployeeResponseDTO> createEmployee( @ModelAttribute EmployeeCreateRequestDTO employeeCreateRequestDTO){
+    @PostMapping
+    public ResponseEntity<EmployeeResponseDTO> createEmployee( @RequestBody EmployeeCreateRequestDTO employeeCreateRequestDTO){
         EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
+    //Update to accept Multipart form data
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<EmployeeResponseDTO> createEmployee( @ModelAttribute EmployeeCreateRequestDTO employeeCreateRequestDTO){
+//        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
+//        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+//    }
 
     //Building Get Employee by ID using RESTAPI
     @GetMapping("{eeid}")

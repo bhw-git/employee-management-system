@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import net.java.Springbt_restapi.CustomClass.EmployeeStatus;
-import net.java.Springbt_restapi.CustomClass.Gender;
-import net.java.Springbt_restapi.CustomClass.Role;
-
+import net.java.Springbt_restapi.enums.EmployeeStatus;
+import net.java.Springbt_restapi.enums.Gender;
+import net.java.Springbt_restapi.enums.Role;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -51,8 +50,27 @@ public class EmployeeEntity {
     @Column(name = "profile_photo_url")
     private String profilePhotoURL;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role role;
+    private Role role = Role.ROLE_EMPLOYEE;
+
+    @Column(name = "phone")
+    private Long phone;
+
+    @Column(name = "joining_date")
+    private LocalDate joiningDate;
+
+    @Column(name = "salary")
+    private Long salary;
+
+    @Column(name = "manager_id")
+    private Long ManagerId;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", nullable = false)

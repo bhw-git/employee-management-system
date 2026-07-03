@@ -1,10 +1,8 @@
 package net.java.Springbt_restapi.service.impl;
 
 import net.java.Springbt_restapi.service.FileStorageService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import net.java.Springbt_restapi.validation.FileValidation;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,9 +17,14 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private static final String UPLOAD_DIR = "uploads/profile/";
 
+    public boolean validateFileType(MultipartFile file){
+        return FileValidation.isValid(file);
+    }
+
     @Override
     public String save(MultipartFile file) {
         try{
+            if(!FileValidation.isValid(file)){ throw new RuntimeException("Invalid file type"); }
             Path uploadPath = Paths.get(UPLOAD_DIR);
             if(!Files.exists(uploadPath)){
                 Files.createDirectories(uploadPath);
@@ -35,5 +38,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file", e);
         }
+
     }
 }

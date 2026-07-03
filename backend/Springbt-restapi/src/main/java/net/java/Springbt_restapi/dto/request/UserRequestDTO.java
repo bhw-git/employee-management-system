@@ -3,36 +3,33 @@ package net.java.Springbt_restapi.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import net.java.Springbt_restapi.enums.EmployeeStatus;
-import net.java.Springbt_restapi.enums.Gender;
 import net.java.Springbt_restapi.enums.Role;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class EmployeeCreateRequestDTO {
+@RequiredArgsConstructor
+public class UserRequestDTO {
+
     @NotBlank
     private String firstName;
     @NotBlank
     private String lastName;
     @Email
-    @NotBlank
     private String officialEmail;
-    @Email
-    private String personalEmail;
-
-    private LocalDate dob;
-
-    private Gender gender;
-    @NotNull
+    private boolean accountNonLocked;
+    private boolean accountNonExpired;
+    private boolean credentialsNonExpired;
+    private LocalDate credentialExpiryDate;
+    private LocalDate accountExpiryDate;
+    private String signUpMethod;
     private EmployeeStatus empStatus;
     @NotNull
     private Role role;
-    @NotNull
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
     private Long departmentId;
 }
