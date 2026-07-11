@@ -72,4 +72,8 @@ public class RolePermissionValidator {
     public boolean canAccess(Role loggedInRole, Role role) {
         return ROLE_HIERARCHY.get(loggedInRole) > ROLE_HIERARCHY.get(role);
     }
+
+    public Set<Role> getAccessibleRoles(Role loggedInRole) {
+        return ALLOWED_CREATIONS.getOrDefault(loggedInRole, Set.of());
+    }
 }

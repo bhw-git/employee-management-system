@@ -20,6 +20,10 @@ import net.java.Springbt_restapi.repository.UserRepository;
 import net.java.Springbt_restapi.repository.DepartmentRepository;
 import net.java.Springbt_restapi.service.UserService;
 import net.java.Springbt_restapi.validation.RolePermissionValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,8 +34,8 @@ import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -104,16 +108,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> getAllEmployees() throws AccessDeniedException {
-        List<UserEntity> userEntities = userRepository.findAll();
-        // Role based security validation
+    public Page<UserResponseDTO> getAllEmployees(int page, int size, String sortDirection) throws AccessDeniedException {
+
+        Sort sort = sortDirection.equalsIgnoreCase("desc") ? Sort.by("createdDate").descending() : Sort.by("createdDate").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
         Role loggedInRole = getLoggedInUserRole();
-        return userEntities
-                .stream()
-                .filter(user -> rolePermissionValidator.canAccess(
-                        loggedInRole, user.getRole()))
-                .map(UserMapper::mapToUserDTO)
-                .toList();
+        Set<Role> roles = rolePermissionValidator.getAccessibleRoles(loggedInRole);
+        Page<UserEntity> users = userRepository.findByRoleIn(roles, pageable);
+        return users.map(UserMapper::mapToUserDTO);
     }
 
     @Override

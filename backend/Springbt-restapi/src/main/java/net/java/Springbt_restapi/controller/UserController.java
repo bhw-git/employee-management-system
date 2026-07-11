@@ -5,13 +5,12 @@ import net.java.Springbt_restapi.dto.request.UserRequestDTO;
 import net.java.Springbt_restapi.dto.request.UserUpdateDTO;
 import net.java.Springbt_restapi.dto.response.UserResponseDTO;
 import net.java.Springbt_restapi.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,8 +43,11 @@ public class UserController {
 
     //Building Get All Employees using RESTAPI
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllEmployees() throws AccessDeniedException {
-        List<UserResponseDTO> employeesList = userService.getAllEmployees();
+    public ResponseEntity<Page<UserResponseDTO>> getAllEmployees(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "desc") String sort) throws AccessDeniedException {
+        Page<UserResponseDTO> employeesList = userService.getAllEmployees(page, size, sort);
         return ResponseEntity.ok(employeesList);
     }
 
