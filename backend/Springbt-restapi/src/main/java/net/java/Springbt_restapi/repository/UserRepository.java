@@ -2,7 +2,6 @@ package net.java.Springbt_restapi.repository;
 
 import net.java.Springbt_restapi.entity.UserEntity;
 import net.java.Springbt_restapi.enums.Role;
-import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
