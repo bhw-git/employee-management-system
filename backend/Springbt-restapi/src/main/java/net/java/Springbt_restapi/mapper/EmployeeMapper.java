@@ -1,6 +1,5 @@
 package net.java.Springbt_restapi.mapper;
 
-import net.java.Springbt_restapi.dto.request.EmployeeCreateRequestDTO;
 import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
 import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
 import net.java.Springbt_restapi.entity.EmployeeEntity;
@@ -9,25 +8,23 @@ public class EmployeeMapper {
 
     //This maps EmployeeDto into the Employee Entity
     //The DTO is converted to Entity
-    public static EmployeeEntity mapToEmployeeEntity(EmployeeCreateRequestDTO createDTO){
-        EmployeeEntity employeeEntity = new EmployeeEntity();
+//    public static EmployeeEntity mapToEmployeeEntity(EmployeeUpdateRequestDTO updateDTO){
+//        EmployeeEntity employeeEntity = new EmployeeEntity();
+//        employeeEntity.setFirstName(updateDTO.getFirstName());
+//        employeeEntity.setLastName(updateDTO.getLastName());
+//        employeeEntity.setPersonalEmail(updateDTO.getPersonalEmail());
+//        employeeEntity.setDob(updateDTO.getDob());
+//        employeeEntity.setGender(updateDTO.getGender());
+////        employeeEntity.setProfilePhotoURL(String.valueOf(updateDTO.getProfilePhoto()));
+//        employeeEntity.setPhone(updateDTO.getPhone());
+//        return employeeEntity;
+//    }
 
-        employeeEntity.setFirstName(createDTO.getFirstName());
-        employeeEntity.setLastName(createDTO.getLastName());
-        employeeEntity.setOfficialEmail(createDTO.getOfficialEmail());
-        employeeEntity.setPersonalEmail(createDTO.getPersonalEmail());
-        employeeEntity.setDob(createDTO.getDob());
-        employeeEntity.setGender(createDTO.getGender());
-        employeeEntity.setEmpStatus(createDTO.getEmpStatus());
-//        employeeEntity.setProfilePhotoURL(String.valueOf(createDTO.getProfilePhoto()));
-        employeeEntity.setRole(createDTO.getRole());
-        return employeeEntity;
-    }
-
+    //Maps Entity back into ResponseDTO
     public static EmployeeResponseDTO mapToEmployeeResponseDTO(EmployeeEntity employeeEntity){
         EmployeeResponseDTO responseDTO = new EmployeeResponseDTO();
 
-        responseDTO.setEeid(employeeEntity.getEeid());
+        responseDTO.setEeid(String.valueOf(employeeEntity.getId()));
         responseDTO.setFirstName(employeeEntity.getFirstName());
         responseDTO.setLastName(employeeEntity.getLastName());
         responseDTO.setOfficialEmail(employeeEntity.getOfficialEmail());
@@ -37,6 +34,10 @@ public class EmployeeMapper {
         responseDTO.setEmpStatus(employeeEntity.getEmpStatus());
         responseDTO.setProfilePhotoURL(employeeEntity.getProfilePhotoURL());
         responseDTO.setRole(employeeEntity.getRole());
+        responseDTO.setPhone(employeeEntity.getPhone());
+        responseDTO.setSalary(employeeEntity.getSalary());
+        responseDTO.setJoiningDate(employeeEntity.getCreatedAt());
+        responseDTO.setUpdatedAt(employeeEntity.getUpdatedAt());
         if(employeeEntity.getDepartmentEntity()!=null){
             responseDTO.setDepartment(
                     employeeEntity
@@ -50,6 +51,8 @@ public class EmployeeMapper {
         return responseDTO;
     }
 
+    //This maps EmployeeDto into the Employee Entity
+    //The DTO is converted to Entity
     public static void updateEntityFromDTO(EmployeeUpdateRequestDTO dto, EmployeeEntity entity){
         if (dto.getFirstName() != null) {
             entity.setFirstName(dto.getFirstName());
@@ -57,10 +60,6 @@ public class EmployeeMapper {
 
         if (dto.getLastName() != null) {
             entity.setLastName(dto.getLastName());
-        }
-
-        if (dto.getOfficialEmail() != null) {
-            entity.setOfficialEmail(dto.getOfficialEmail());
         }
 
         if (dto.getPersonalEmail() != null) {
@@ -75,12 +74,8 @@ public class EmployeeMapper {
             entity.setGender(dto.getGender());
         }
 
-        if (dto.getEmpStatus() != null) {
-            entity.setEmpStatus(dto.getEmpStatus());
-        }
-
-        if (dto.getRole() != null){
-            entity.setRole(dto.getRole());
+        if(dto.getPhone() != null){
+            entity.setPhone(dto.getPhone());
         }
 
         // Department update

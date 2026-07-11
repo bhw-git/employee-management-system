@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import net.java.Springbt_restapi.enums.Role;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name="user_roles")
 @Entity
 public class UserRoles {
@@ -20,3 +20,4 @@ public class UserRoles {
     @Column(name = "role")
     private Role role;
 }
+

@@ -37,6 +37,11 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @PrePersist
+    public void prePersist(){
+        if(role == null) role = Role.ROLE_EMPLOYEE;
+    }
+
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 

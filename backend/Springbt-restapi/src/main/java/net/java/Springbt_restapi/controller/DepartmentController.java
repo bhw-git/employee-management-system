@@ -2,9 +2,7 @@ package net.java.Springbt_restapi.controller;
 
 import lombok.AllArgsConstructor;
 import net.java.Springbt_restapi.dto.DepartmentDto;
-import net.java.Springbt_restapi.entity.DepartmentEntity;
 import net.java.Springbt_restapi.service.DepartmentService;
-import org.springframework.http.HttpRange;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

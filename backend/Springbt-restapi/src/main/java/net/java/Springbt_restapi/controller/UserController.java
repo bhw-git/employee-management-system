@@ -2,12 +2,12 @@ package net.java.Springbt_restapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.java.Springbt_restapi.dto.request.UserRequestDTO;
+import net.java.Springbt_restapi.dto.request.UserUpdateDTO;
 import net.java.Springbt_restapi.dto.response.UserResponseDTO;
 import net.java.Springbt_restapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
@@ -54,9 +54,9 @@ public class UserController {
     // , consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     public ResponseEntity<UserResponseDTO> updateEmployee(
             @PathVariable String eeid,
-            @RequestBody UserRequestDTO userRequestDTO)
+            @RequestBody UserUpdateDTO userUpdateDTO)
             throws AccessDeniedException {
-        UserResponseDTO employeeDto = userService.updateEmployee(eeid, userRequestDTO);
+        UserResponseDTO employeeDto = userService.updateEmployee(eeid, userUpdateDTO);
         return ResponseEntity.ok(employeeDto);
     }
 

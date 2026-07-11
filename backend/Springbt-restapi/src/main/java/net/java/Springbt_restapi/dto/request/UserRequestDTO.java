@@ -27,7 +27,6 @@ public class UserRequestDTO {
     private LocalDate accountExpiryDate;
     private String signUpMethod;
     private EmployeeStatus empStatus;
-    @NotNull
     private Role role;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;

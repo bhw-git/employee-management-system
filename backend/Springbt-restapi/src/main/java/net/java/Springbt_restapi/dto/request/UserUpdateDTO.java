@@ -1,11 +1,9 @@
-package net.java.Springbt_restapi.dto.response;
+package net.java.Springbt_restapi.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import net.java.Springbt_restapi.dto.request.UserRequestDTO;
 import net.java.Springbt_restapi.enums.EmployeeStatus;
 import net.java.Springbt_restapi.enums.Role;
 
@@ -14,9 +12,9 @@ import java.time.LocalDateTime;
 
 @Data
 @RequiredArgsConstructor
-public class UserResponseDTO {
+public class UserUpdateDTO {
 
-    private String empId;
+    @NotBlank
     @NotBlank
     private String firstName;
     @NotBlank
@@ -31,6 +29,7 @@ public class UserResponseDTO {
     private String signUpMethod;
     private EmployeeStatus empStatus;
     private Role role;
+    private Long salary;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private Long departmentId;

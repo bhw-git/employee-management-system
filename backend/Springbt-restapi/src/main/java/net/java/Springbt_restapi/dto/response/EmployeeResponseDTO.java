@@ -20,6 +20,11 @@ public class EmployeeResponseDTO {
     private EmployeeStatus empStatus;
     private String profilePhotoURL;
     private Role role;
+    private Long phone;
+    private LocalDate joiningDate;
+    private Long salary;
+//    private Long ManagerId;
+    private LocalDate updatedAt;
     private String department;
     private Long departmentId;
 }

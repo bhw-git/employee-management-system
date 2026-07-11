@@ -8,11 +8,10 @@ import net.java.Springbt_restapi.enums.EmployeeStatus;
 import net.java.Springbt_restapi.enums.Gender;
 import net.java.Springbt_restapi.enums.Role;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "employees")
 public class EmployeeEntity {
@@ -21,8 +20,9 @@ public class EmployeeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "eeid", unique = true, nullable = false, updatable = false)
-    private String eeid; // Business/Public ID
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="emp_id", referencedColumnName = "id")
+    private UserEntity userEntity; // Business/Public ID
 
     @Column(name = "first_name")
     private String firstName;
@@ -33,7 +33,7 @@ public class EmployeeEntity {
     @Column(name = "official_email_id", nullable = false)
     private String officialEmail;
 
-    @Column(name="personal_email_id", nullable = false)
+    @Column(name="personal_email_id")
     private String personalEmail;
 
     @Column(name="date_of_birth")
@@ -52,27 +52,25 @@ public class EmployeeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role role = Role.ROLE_EMPLOYEE;
+    private Role role;
 
     @Column(name = "phone")
     private Long phone;
 
-    @Column(name = "joining_date")
-    private LocalDate joiningDate;
-
     @Column(name = "salary")
     private Long salary;
 
-    @Column(name = "manager_id")
-    private Long ManagerId;
+//    @Column(name = "manager_id")
+//    private Long ManagerId;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", nullable = false)
     private DepartmentEntity departmentEntity;
+
 }

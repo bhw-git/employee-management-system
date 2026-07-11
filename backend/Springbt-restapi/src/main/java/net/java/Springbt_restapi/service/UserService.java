@@ -1,6 +1,7 @@
 package net.java.Springbt_restapi.service;
 
 import net.java.Springbt_restapi.dto.request.UserRequestDTO;
+import net.java.Springbt_restapi.dto.request.UserUpdateDTO;
 import net.java.Springbt_restapi.dto.response.UserResponseDTO;
 
 import java.nio.file.AccessDeniedException;
@@ -13,7 +14,7 @@ public interface UserService {
 
     List<UserResponseDTO> getAllEmployees() throws AccessDeniedException;
 
-    UserResponseDTO updateEmployee(String eeid, UserRequestDTO userRequestDTO) throws AccessDeniedException;
+    UserResponseDTO updateEmployee(String eeid, UserUpdateDTO userUpdateDTO) throws AccessDeniedException;
 
     void deleteEmployee(String eeid) throws AccessDeniedException;
 }

@@ -3,8 +3,10 @@ package net.java.Springbt_restapi.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import net.java.Springbt_restapi.dto.request.UserRequestDTO;
+import net.java.Springbt_restapi.dto.request.UserUpdateDTO;
 import net.java.Springbt_restapi.dto.response.UserResponseDTO;
 import net.java.Springbt_restapi.entity.DepartmentEntity;
+import net.java.Springbt_restapi.entity.EmployeeEntity;
 import net.java.Springbt_restapi.entity.UserEntity;
 import net.java.Springbt_restapi.entity.Users;
 import net.java.Springbt_restapi.enums.CredentialStatus;
@@ -12,6 +14,7 @@ import net.java.Springbt_restapi.enums.EmployeeStatus;
 import net.java.Springbt_restapi.enums.Role;
 import net.java.Springbt_restapi.exception.ResourceNotFoundException;
 import net.java.Springbt_restapi.mapper.UserMapper;
+import net.java.Springbt_restapi.repository.EmployeeRepository;
 import net.java.Springbt_restapi.repository.UserCredentialRepository;
 import net.java.Springbt_restapi.repository.UserRepository;
 import net.java.Springbt_restapi.repository.DepartmentRepository;
@@ -24,8 +27,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.access.AccessDeniedException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -37,6 +43,7 @@ public class UserServiceImpl implements UserService {
     private final UserCredentialRepository userCredentialRepository;
     private final PasswordEncoder passwordEncoder;
     private final RolePermissionValidator rolePermissionValidator;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     @Transactional
@@ -48,6 +55,8 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = UserMapper.mapToUserEntity(userRequestDTO);
         DepartmentEntity departmentEntity = departmentRepository.findById(userRequestDTO.getDepartmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department Name Not Found" +userRequestDTO.getDepartmentId()));
+        //Get role from DTO else set a default role as "ROLE_EMPLOYEE"
+        Role role = Optional.ofNullable(userRequestDTO.getRole()).orElse(Role.ROLE_EMPLOYEE);
         userEntity.setEeid(generateUUID());
         userEntity.setAccountNonLocked(true);
         userEntity.setAccountNonExpired(true);
@@ -56,11 +65,23 @@ public class UserServiceImpl implements UserService {
         userEntity.setAccountExpiryDate(null);
         userEntity.setSignUpMethod("Email");
         userEntity.setEmpStatus(EmployeeStatus.ACTIVE);
-//        userEntity.setRole(userRequestDTO.getRole());
+        userEntity.setRole(role);
         userEntity.setCreatedDate(LocalDateTime.now());
         userEntity.setUpdatedDate(LocalDateTime.now());
         userEntity.setDepartmentEntity(departmentEntity);
         UserEntity savedEntity = userRepository.save(userEntity);
+
+        EmployeeEntity employeeEntity = new EmployeeEntity();
+        employeeEntity.setFirstName(userRequestDTO.getFirstName());
+        employeeEntity.setLastName(userRequestDTO.getLastName());
+        employeeEntity.setOfficialEmail(userRequestDTO.getOfficialEmail());
+        employeeEntity.setEmpStatus(userRequestDTO.getEmpStatus());
+        employeeEntity.setRole(role);
+        employeeEntity.setCreatedAt(LocalDate.now());
+        employeeEntity.setUpdatedAt(LocalDate.now());
+        employeeEntity.setDepartmentEntity(departmentEntity);
+        employeeEntity.setUserEntity(savedEntity);
+        employeeRepository.save(employeeEntity);
 
         Users credential = new Users();
         credential.setUserEntity(savedEntity);
@@ -96,33 +117,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO updateEmployee(String eeid, UserRequestDTO userRequestDTO) throws AccessDeniedException {
+    public UserResponseDTO updateEmployee(String eeid, UserUpdateDTO userUpdateDTO) throws AccessDeniedException {
         UserEntity userEntity = userRepository.findByEeid(eeid)
-                .orElseThrow(() -> new ResourceNotFoundException("No Employee found" +eeid));
-        DepartmentEntity departmentEntity = departmentRepository.findById(userRequestDTO.getDepartmentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Department Name Not Found" +userRequestDTO.getDepartmentId()));
+                .orElseThrow(() -> new ResourceNotFoundException("No Employee found in UserRepository" +eeid));
+        EmployeeEntity employeeEntity = employeeRepository.findByUserEntity(userEntity)
+                .orElseThrow(() -> new ResourceNotFoundException("No Employee found in EmployeeRepository" +eeid));
+        DepartmentEntity departmentEntity = departmentRepository.findById(userUpdateDTO.getDepartmentId())
+                .orElseThrow(() -> new ResourceNotFoundException("Department Name Not Found" +userUpdateDTO.getDepartmentId()));
 
         //Role based User Validation
         if(getLoggedInUserRole() == Role.ROLE_SUPER_ADMIN || getLoggedInUserRole() == Role.ROLE_ADMIN){
-            userEntity.setRole(userRequestDTO.getRole());
+            userEntity.setRole(userUpdateDTO.getRole());
         }
         rolePermissionValidator.validateHierarchy(getLoggedInUserRole(),userEntity.getRole());
-        userEntity.setFirstName(userRequestDTO.getFirstName());
-        userEntity.setLastName(userRequestDTO.getLastName());
-        userEntity.setOfficialEmail(userRequestDTO.getOfficialEmail());
-        userEntity.setAccountNonLocked(userRequestDTO.isAccountNonLocked());
-        userEntity.setAccountNonExpired(userRequestDTO.isAccountNonExpired());
-        userEntity.setCredentialsNonExpired(userRequestDTO.isCredentialsNonExpired());
-        userEntity.setCredentialExpiryDate(userRequestDTO.getCredentialExpiryDate());
-        userEntity.setAccountExpiryDate(userRequestDTO.getAccountExpiryDate());
-        userEntity.setSignUpMethod(userRequestDTO.getSignUpMethod());
-        userEntity.setEmpStatus(userRequestDTO.getEmpStatus());
-        userEntity.setRole(userRequestDTO.getRole());
+        userEntity.setFirstName(userUpdateDTO.getFirstName());
+        userEntity.setLastName(userUpdateDTO.getLastName());
+        userEntity.setOfficialEmail(userUpdateDTO.getOfficialEmail());
+        userEntity.setAccountNonLocked(userUpdateDTO.isAccountNonLocked());
+        userEntity.setAccountNonExpired(userUpdateDTO.isAccountNonExpired());
+        userEntity.setCredentialsNonExpired(userUpdateDTO.isCredentialsNonExpired());
+        userEntity.setCredentialExpiryDate(userUpdateDTO.getCredentialExpiryDate());
+        userEntity.setAccountExpiryDate(userUpdateDTO.getAccountExpiryDate());
+        userEntity.setSignUpMethod(userUpdateDTO.getSignUpMethod());
+        userEntity.setEmpStatus(userUpdateDTO.getEmpStatus());
+        userEntity.setRole(userUpdateDTO.getRole());
         userEntity.setCreatedDate(LocalDateTime.now());
         userEntity.setUpdatedDate(LocalDateTime.now());
         userEntity.setDepartmentEntity(departmentEntity);
-        UserEntity savedEntity = userRepository.save(userEntity);
-        return UserMapper.mapToUserDTO(savedEntity);
+        UserEntity saveUserEntity = userRepository.save(userEntity);
+        UserMapper.mapToUserDTO(saveUserEntity);
+
+        employeeEntity.setOfficialEmail(userUpdateDTO.getOfficialEmail());
+        employeeEntity.setEmpStatus(userUpdateDTO.getEmpStatus());
+        employeeEntity.setRole(userUpdateDTO.getRole());
+        employeeEntity.setSalary(userUpdateDTO.getSalary());
+        employeeEntity.setDepartmentEntity(departmentEntity);
+        employeeRepository.save(employeeEntity);
+        return UserMapper.mapToUserDTO(saveUserEntity);
     }
 
     @Override
@@ -136,13 +167,6 @@ public class UserServiceImpl implements UserService {
         userCredentialRepository.delete(credential);
         userRepository.delete(userEntity);
     }
-    //Generate Employee UUID
-    private String generateUUID(){
-        return "EMP-" + UUID.randomUUID()
-                .toString()
-                .substring(0,7)
-                .toUpperCase();
-    }
 
     private Role getLoggedInUserRole() throws AccessDeniedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -153,5 +177,12 @@ public class UserServiceImpl implements UserService {
                 .findFirst()
                 .map(Role::valueOf)
                 .orElseThrow(() -> new AccessDeniedException("User has no assigned role."));
+    }
+
+    public String generateUUID(){
+        return "EMP-" + UUID.randomUUID()
+                .toString()
+                .substring(0,7)
+                .toUpperCase();
     }
 }

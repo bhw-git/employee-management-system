@@ -1,15 +1,12 @@
 package net.java.Springbt_restapi.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.java.Springbt_restapi.dto.request.EmployeeCreateRequestDTO;
 import net.java.Springbt_restapi.dto.request.EmployeeUpdateRequestDTO;
 import net.java.Springbt_restapi.dto.response.EmployeeResponseDTO;
 import net.java.Springbt_restapi.service.EmployeeService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -19,31 +16,11 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    //Building Add Employee using RestAPI
-    @PostMapping
-    public ResponseEntity<EmployeeResponseDTO> createEmployee( @RequestBody EmployeeCreateRequestDTO employeeCreateRequestDTO){
-        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
-    }
-    //Update to accept Multipart form data
-//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<EmployeeResponseDTO> createEmployee( @ModelAttribute EmployeeCreateRequestDTO employeeCreateRequestDTO){
-//        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
-//        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
-//    }
-
     //Building Get Employee by ID using RESTAPI
     @GetMapping("{eeid}")
     public ResponseEntity<EmployeeResponseDTO> getEmployee(@PathVariable String eeid){
         EmployeeResponseDTO getEmployee = employeeService.getEmployeeByEeid(eeid);
         return ResponseEntity.ok(getEmployee);
-    }
-
-    //Building Get All Employees using RESTAPI
-    @GetMapping
-    public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees(){
-        List<EmployeeResponseDTO> employeesList = employeeService.getAllEmployees();
-        return ResponseEntity.ok(employeesList);
     }
 
     //Building Put Employee using RESTAPI
@@ -53,9 +30,29 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDto);
     }
 
-    @DeleteMapping("{eeid}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable String eeid){
-        employeeService.deleteEmployee(eeid);
-        return ResponseEntity.ok("Employee Deleted Successfully");
-    }
+    //Building Add Employee using RestAPI
+//    @PostMapping
+//    public ResponseEntity<EmployeeResponseDTO> createEmployee( @RequestBody EmployeeCreateRequestDTO employeeCreateRequestDTO){
+//        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
+//        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+//    }
+    //Update to accept Multipart form data
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<EmployeeResponseDTO> createEmployee( @ModelAttribute EmployeeCreateRequestDTO employeeCreateRequestDTO){
+//        EmployeeResponseDTO savedEmployee = employeeService.createEmployee(employeeCreateRequestDTO);
+//        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+//    }
+
+//Building Get All Employees using RESTAPI
+//    @GetMapping
+//    public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees(){
+//        List<EmployeeResponseDTO> employeesList = employeeService.getAllEmployees();
+//        return ResponseEntity.ok(employeesList);
+//    }
+
+//    @DeleteMapping("{eeid}")
+//    public ResponseEntity<String> deleteEmployee(@PathVariable String eeid){
+//        employeeService.deleteEmployee(eeid);
+//        return ResponseEntity.ok("Employee Deleted Successfully");
+//    }
 }

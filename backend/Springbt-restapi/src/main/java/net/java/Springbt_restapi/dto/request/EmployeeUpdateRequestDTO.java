@@ -10,6 +10,7 @@ import net.java.Springbt_restapi.enums.Role;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,13 +19,9 @@ public class EmployeeUpdateRequestDTO {
     private String firstName;
     private String lastName;
     @Email
-    private String officialEmail;
-    @Email
     private String personalEmail;
     private LocalDate dob;
     private Gender gender;
-    private EmployeeStatus empStatus;
     private MultipartFile profilePhoto;
-    private Role role;
-    private Long departmentId;
+    private Long phone;
 }
